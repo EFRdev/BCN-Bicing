@@ -12,8 +12,8 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { getCurrentLocation } from '../utils/geolocation';
-import { getNearbyStations } from '../services/bicing_api';
-import StationItem from '../components/StationItem';
+import { getNearbyStations } from '../services/bicing_api_service';
+import StationItem from '../components/station_item';
 
 export default function HomeScreen() {
   const [stations, setStations] = useState([]);

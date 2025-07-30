@@ -4,7 +4,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet } from 'react-native';
 
-import HomeScreen from './src/screens/HomeScreen';
+// ¡IMPORTANTE! Hemos cambiado la ruta de '../src/screens/HomeScreen' a './src/screens/HomeScreen'
+// Esto asume que App.js está en la carpeta 'frontend/' y HomeScreen.js está en 'frontend/src/screens/'
+import HomeScreen from './src/screens/HomeScreen'; // <-- ¡Esta es la corrección!
 
 const Stack = createStackNavigator();
 
