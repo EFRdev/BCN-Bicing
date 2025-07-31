@@ -2,7 +2,7 @@ import Constants from 'expo-constants';
 
 // URL del backend - cambia esto según tu configuración
 const API_BASE_URL = __DEV__
-  ? 'http://192.168.68.90:5000/api'  // Desarrollo
+  ? 'http://192.168.68.90:8000/api'  // Desarrollo
   : 'https://tu-backend-url.com/api';  // Producción
 
 /**
@@ -93,7 +93,7 @@ export const checkBackendHealth = async () => {
 
     const response = await fetch(url, {
       method: 'GET',
-      timeout: 5000,
+      timeout: 15000,
     });
 
     if (!response.ok) {
