@@ -8,6 +8,7 @@ import {
   Alert,
   ActivityIndicator,
   RefreshControl,
+  Linking,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -21,6 +22,33 @@ export default function HomeScreen() {
   const [userLocation, setUserLocation] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState(null);
+
+  // <-- La función debe estar DENTRO del componente HomeScreen
+  const handleStationPress = (station) => {
+  // URI más específica que podría funcionar
+  // La URL usa un esquema 'smou://' seguido del station_id de Bicing.
+  // Es una conjetura, pero es una forma lógica de implementar un deep link.
+  const smouUri = `smou://station?id=${station.station_id}`;
+
+  // Fallback: URL para abrir la ubicación en Google Maps
+  const mapsUrl = `http://maps.google.com/maps?q=${station.latitude},${station.longitude}`;
+
+  Linking.openURL(smouUri)
+    .then(() => console.log('✅ Abriendo la app de Smou con éxito'))
+    .catch(err => {
+      // Si la URI de Smou falla, intenta abrir Google Maps
+      console.log('❌ Falló al abrir la app de Smou, intentando con Google Maps...');
+      Linking.openURL(mapsUrl)
+        .catch(mapErr => {
+          // Si Google Maps tampoco funciona, muestra una alerta
+          console.error('❌ Error abriendo Google Maps:', mapErr);
+          Alert.alert(
+            'Error',
+            'No se pudo abrir la aplicación de mapas.',
+          );
+        });
+    });
+};
 
   useEffect(() => {
     // Cargar estaciones al iniciar la app
@@ -82,7 +110,7 @@ export default function HomeScreen() {
   };
 
   const renderStationItem = ({ item }) => (
-    <StationItem station={item} />
+    <StationItem station={item} onPress={handleStationPress} />
   );
 
   const renderEmptyState = () => {
@@ -163,6 +191,7 @@ export default function HomeScreen() {
     </SafeAreaView>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

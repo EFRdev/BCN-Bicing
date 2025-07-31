@@ -87,7 +87,7 @@ class BicingAPIClient:
             return None
 
     def _combine_station_data(self, stations_info: List[Dict], stations_status: List[Dict]) -> List[Dict]:
-        """Combinar información estática con estado en tiempo real usando GBFS"""
+        """Combinar información estática con estado en tiempo real usando GBFS y GBFS-V1"""
         # Crear un diccionario de estado por station_id para búsqueda rápida
         status_dict = {}
         for status in stations_status:
@@ -99,30 +99,29 @@ class BicingAPIClient:
         for info in stations_info:
             station_id = info.get('station_id')
 
-            # Estructura base con información estática (formato GBFS)
+            # Estructura base con información estática
             station = {
                 'station_id': station_id,
                 'name': info.get('name', 'Sin nombre'),
                 'address': info.get('address', ''),
                 'latitude': float(info.get('lat', 0)),
                 'longitude': float(info.get('lon', 0)),
-                'capacity': int(info.get('capacity', 0)),
-                'is_charging_station': info.get('is_charging_station', False),
                 # Estado por defecto si no hay datos en tiempo real
-                'num_bikes_available': 0,
+                'num_bikes_available_ebike': 0,
+                'num_bikes_available_mechanical': 0,
                 'num_docks_available': 0,
-                'is_active': True,
-                'last_updated': None
+                'is_active': False,
             }
 
             # Agregar datos de estado en tiempo real si están disponibles
             if station_id in status_dict:
                 status = status_dict[station_id]
                 station.update({
-                    'num_bikes_available': int(status.get('num_bikes_available', 0)),
+                    # Actualizar con los campos específicos de Bicing
+                    'num_bikes_available_ebike': int(status.get('num_ebikes_available', 0)),
+                    'num_bikes_available_mechanical': int(status.get('num_bikes_available', 0)) - int(status.get('num_ebikes_available', 0)),
                     'num_docks_available': int(status.get('num_docks_available', 0)),
                     'is_active': status.get('is_renting', False) and status.get('is_returning', False),
-                    'last_updated': status.get('last_reported')
                 })
 
             combined.append(station)

@@ -1,184 +1,103 @@
-# 🚴 BCN-Bicing MVP
+# 🚴 BCN-Bicing: Real-Time Bike Stations in Barcelona
 
-Una aplicación móvil para encontrar estaciones de Bicing cercanas en Barcelona con información en tiempo real.
+This mobile application helps you find nearby Bicing stations in Barcelona with real-time availability of bikes and docks.
 
-## 📱 Funcionalidades del MVP
+## 📱 Core Features (MVP)
 
-- ✅ **Geolocalización**: Obtiene tu ubicación actual
-- ✅ **Estaciones cercanas**: Muestra las estaciones más próximas (radio de 1km)
-- ✅ **Información en tiempo real**: Bicis y espacios disponibles
-- ✅ **Distancias**: Calcula y muestra la distancia a cada estación
-- ✅ **Actualización manual**: Botón para refrescar los datos
+- ✅ **Geolocation**: Automatically detects your current location.
+- ✅ **Nearby Stations**: Displays a list of the closest Bicing stations (default radius: 1km).
+- ✅ **Real-Time Data**: Shows up-to-the-minute information on available bikes and empty docks.
+- ✅ **Distance Calculation**: Calculates and shows the distance to each station from your location.
+- ✅ **Manual Refresh**: A simple button to update the station data on demand.
 
-## 🏗️ Arquitectura
+## 🏗️ Project Structure
 
 ```
 BCN-Bicing/
-├── backend/          # API REST en Python/Flask
-├── frontend/         # App móvil en React Native/Expo
-└── README.md         # Este archivo
+├── backend/                # Python/Flask REST API
+│   ├── main.py             # Main Flask application
+│   ├── api_client.py       # Client for the Bicing API
+│   ├── services/           # Business logic modules
+│   │   └── location_service.py
+│   ├── utils/              # Utility functions
+│   │   └── geo_utils.py
+│   └── test_api.py         # API tests
+├── frontend/               # React Native / Expo Mobile App
+│   ├── App.js              # Main app component and navigation
+│   ├── src/
+│   │   ├── components/     # Reusable UI components
+│   │   │   └── station_item.js
+│   │   ├── screens/        # App screens
+│   │   │   └── HomeScreen.js
+│   │   ├── services/       # Services for API calls
+│   │   │   └── bicing_api_service.js
+│   │   └── utils/          # Utility functions
+│   │       └── geolocation.js
+│   └── package.json
+├── backend_env.sh          # Script to run the backend server
+├── frontend_env.sh         # Script to run the frontend app
+├── setup_project.sh        # Initial project setup script
+└── README.md               # This file
 ```
 
-## 🚀 Instalación y Configuración
+## 🚀 Getting Started
 
-### Prerrequisitos
+### Prerequisites
 
-- Python 3.12+ (ya configurado en tu entorno virtual)
+- Python 3.12+
 - Node.js 16+
 - Expo CLI
-- Smartphone o emulador para testing
+- A smartphone with the Expo Go app or an emulator.
 
-### Backend (API)
+### Setup
 
-1. **Activar el entorno virtual** (ya lo tienes configurado):
-   ```bash
-   # En macOS/Linux
-   source bin/activate
+1.  **Run the setup script** to install all dependencies for both frontend and backend:
 
-   # En Windows PowerShell
-   .\Scripts\Activate.ps1
-   ```
+    ```bash
+    chmod +x setup_project.sh
+    ./setup_project.sh
+    ```
 
-2. **Instalar dependencias**:
-   ```bash
-   cd backend
-   pip install -r requirements.txt
-   ```
+### Running the Application
 
-3. **Dar permisos a los scripts** (macOS/Linux):
-   ```bash
-   chmod +x run_backend.sh run_frontend.sh
-   ```
+1.  **Start the Backend Server**:
 
-3. **Configurar variables de entorno**:
-   ```bash
-   # El archivo .env ya está creado, puedes editarlo si necesitas cambios
-   cat .env
-   ```
+    Open a terminal and run:
 
-4. **Ejecutar el servidor**:
-   ```bash
-   python main.py
-   ```
+    ```bash
+    ./backend_env.sh
+    ```
 
-   El backend estará disponible en `http://localhost:5000`
+    The backend will be running at `http://localhost:8000`.
 
-5. **Verificar que funciona**:
-   ```bash
-   # Probar endpoint de salud
-   curl http://localhost:5000/api/health
+2.  **Start the Frontend App**:
 
-   # Probar estaciones (puede tardar un poco la primera vez)
-   curl "http://localhost:5000/api/stations/nearby?lat=41.3851&lng=2.1734"
-   ```
+    Open a second terminal and run:
 
-### Frontend (App Móvil)
+    ```bash
+    ./frontend_env.sh
+    ```
 
-1. **Instalar Expo CLI** (si no lo tienes):
-   ```bash
-   npm install -g expo-cli
-   ```
+    This will start the Metro bundler and provide you with a QR code to run the app on your device using Expo Go.
 
-2. **Instalar dependencias**:
-   ```bash
-   cd frontend
-   npm install
-   ```
+## 🔧 Scripts Overview
 
-3. **Configurar la URL del backend**:
-   ```bash
-   # Editar frontend/.env si es necesario
-   # Por defecto apunta a localhost:5000
-   ```
+-   `setup_project.sh`: Use this once to set up the entire project.
+-   `backend_env.sh`: Runs the backend server and its dependencies.
+-   `frontend_env.sh`: Runs the frontend application.
+-   `dev_commands.sh`: A utility script with several development commands.
 
-4. **Ejecutar la app**:
-   ```bash
-   expo start
-   # O usar el script de conveniencia:
-   ./run_frontend.sh
-   ```
+## ⚙️ API Endpoints
 
-5. **Probar en dispositivo**:
-   - Instala la app **Expo Go** en tu móvil
-   - Escanea el código QR que aparece en terminal/navegador
-   - O usa un emulador: `expo start --android` / `expo start --ios`
+The backend provides the following endpoints:
 
-### Verificación del Sistema
+-   `GET /api/health`: Health check.
+-   `GET /api/stations`: Get a list of all stations.
+-   `GET /api/stations/nearby?lat=<latitude>&lng=<longitude>`: Get stations near a specific location.
 
-**Probar backend**:
-```bash
-# Health check
-curl http://localhost:5000/api/health
+## 🛠️ Tech Stack
 
-# Estaciones cercanas (Plaza Catalunya)
-curl "http://localhost:5000/api/stations/nearby?lat=41.3851&lng=2.1734"
-
-# O ejecutar tests completos
-cd backend && python test_api.py
-```
-
-**Probar frontend**:
-- Instala **Expo Go** en tu móvil
-- Escanea el código QR
-- O usa emulador: `expo start --android` / `expo start --ios`
-
-### Ubicaciones de Prueba en Barcelona
-
-- **Plaza Catalunya**: `41.3851, 2.1734`
-- **Sagrada Familia**: `41.4036, 2.1744`
-- **Parc Güell**: `41.4145, 2.1527`
-- **Barceloneta**: `41.3755, 2.1901`
-
-## 🔧 Debugging
-
-### Problemas Comunes
-
-1. **Backend no conecta con API de Bicing**:
-   - Verificar conexión a internet
-   - La API pública puede estar temporalmente no disponible
-
-2. **Frontend no conecta con backend**:
-   - Verificar que el backend esté ejecutándose en puerto 5000
-   - En dispositivo físico, cambiar `localhost` por la IP de tu ordenador en `frontend/.env`
-
-3. **Permisos de geolocalización**:
-   - En iOS: Configuración > Privacidad > Ubicación
-   - En Android: Configuración > Apps > Permisos > Ubicación
-
-4. **App no encuentra estaciones**:
-   - Probar con ubicaciones conocidas de Barcelona
-   - Aumentar el radio de búsqueda (modificar en HomeScreen.js)
-
-### Logs Útiles
-
-- **Backend**: Los logs aparecen en la terminal donde ejecutas `python main.py`
-- **Frontend**: Usar `expo start` y ver logs en Metro Bundler
-- **Dispositivo**: En Expo Go, agitar el dispositivo > "Debug mode"
-
-## 🎯 Próximos Pasos (Post-MVP)
-
-- [ ] **Mapa interactivo** con marcadores de estaciones
-- [ ] **Navegación** a la estación seleccionada
-- [ ] **Historial** de estaciones favoritas
-- [ ] **Notificaciones** cuando una estación tenga bicis disponibles
-- [ ] **Metro y Bus** - integrar otras APIs de transporte
-- [ ] **Predicciones** de disponibilidad usando ML
-
-## 🛠️ Stack Tecnológico
-
-- **Backend**: Python, Flask, Requests
-- **Frontend**: React Native, Expo
-- **APIs**: Open Data Barcelona (Bicing)
-- **Geolocalización**: Expo Location
-- **Deploy**: Local (MVP), Heroku/Vercel (futuro)
-
-## 📝 Notas de Desarrollo
-
-- **Tiempo estimado MVP**: 3 días
-- **Prioridad**: Funcionalidad sobre diseño
-- **Enfoque**: Una API (Bicing) funcionando perfectamente
-- **Testing**: Manual en dispositivo real
-
----
-
-¡Listo para desarrollar! 🚀 Empieza por el backend y luego el frontend.
+-   **Backend**: Python, Flask, Requests
+-   **Frontend**: React Native, Expo
+-   **APIs**: Open Data Barcelona (Bicing)
+-   **Geolocation**: Expo Location
