@@ -77,13 +77,12 @@ def get_all_stations():
         return jsonify({"error": f"Error interno: {str(e)}"}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000, debug=True)
+    # app.run(host='0.0.0.0', port=8000, debug=True)
 
-#if __name__ == '__main__':
-#    port = int(os.getenv('PORT', 8000))
-#    debug = os.getenv('FLASK_ENV') == 'development'
+    port = int(os.getenv('PORT', 8000))
+    debug = os.getenv('FLASK_ENV') == 'development'
 
-#    print(f"🚀 Iniciando servidor en puerto {port}")
-#    print(f"🔧 Modo debug: {debug}")
+    print(f"🚀 Iniciando servidor en puerto {port}")
+    print(f"🔧 Modo debug: {debug}")
 
-#    app.run(host='0.0.0.0', port=port, debug=debug)
+    app.run(host='0.0.0.0', port=port, debug=debug)

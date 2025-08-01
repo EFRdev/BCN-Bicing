@@ -5,17 +5,14 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # Copia los archivos de requerimientos e instala las dependencias
-# Esto es más eficiente, ya que el layer de dependencias se cachea
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-# Copia el resto de tu código al directorio de trabajo
+# Copia el resto de tu código
 COPY . .
 
-# Expone el puerto en el que la aplicación se ejecutará (ej: 8000)
-EXPOSE 8000
+# Expone el puerto que se le asignará (por defecto 8080 en Cloud Run)
+EXPOSE 8080
 
-# Comando para iniciar la aplicación con Gunicorn
-# 'app:app' significa que Gunicorn ejecutará la instancia de la app
-# llamada 'app' que se encuentra en el archivo 'app.py'
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"]
+# Comando para iniciar la aplicación con Gunicorn usando la sintaxis de shell
+CMD gunicorn --bind 0.0.0.0:${PORT:-8080} app:app

@@ -3,7 +3,7 @@ import Constants from 'expo-constants';
 // URL del backend - cambia esto según tu configuración
 const API_BASE_URL = __DEV__
   ? 'http://192.168.68.90:8000/api'  // Desarrollo
-  : 'https://tu-backend-url.com/api';  // Producción
+  : 'https://bicing-api-294811234498.europe-west1.run.app/api';  // Producción
 
 /**
  * Obtener estaciones de Bicing cercanas a una ubicación

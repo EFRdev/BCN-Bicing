@@ -1,16 +1,9 @@
 {
   "expo": {
-    "name": "BCN Bicing",
-    "slug": "bcn-bicing",
+    "name": "Bicing API App",
+    "slug": "bicing-api-app",
     "version": "1.0.0",
-    "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#2196F3"
-    },
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -27,14 +20,22 @@
       },
       "permissions": [
         "ACCESS_FINE_LOCATION",
-        "ACCESS_COARSE_LOCATION"
-      ]
+        "ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ],
+      "package": "com.efrdev.bicingapiapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-location"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "555ca106-2e27-4c82-9f8f-6ef6b2cc6ed2"
+      }
+    }
   }
 }
