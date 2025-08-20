@@ -10,13 +10,15 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "Esta aplicación necesita acceso a tu ubicación para encontrar estaciones de Bicing cercanas."
-      }
+        "NSLocationWhenInUseUsageDescription": "Esta aplicación necesita acceso a tu ubicación para encontrar estaciones de Bicing cercanas.",
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "bundleIdentifier": "com.efrdev.bicingapiapp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#2196F3"
+        "backgroundColor": "#FFFFFF"
       },
       "permissions": [
         "ACCESS_FINE_LOCATION",
